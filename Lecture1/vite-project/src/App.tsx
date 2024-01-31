@@ -5,6 +5,9 @@ import { Map, View } from 'ol';
 import TileLayer from 'ol/layer/Tile';
 import OSM from "ol/source/OSM";
 import { useGeographic } from 'ol/proj';
+import VectorLayer from 'ol/layer/Vector';
+import VectorSource from 'ol/source/Vector';
+import GeoJSON from "ol/format/GeoJSON";
 
 useGeographic();
 
@@ -14,7 +17,13 @@ const App = () => {
   
   const map = useMemo(()=> new Map({
     layers: [
-      new TileLayer({source: new OSM()})
+      new TileLayer({source: new OSM()}),
+      new VectorLayer({
+        source: new VectorSource({
+          url: "/kommuner.json",
+          format: new GeoJSON()
+        })
+      })
     ],
     view: new View({
       center: [10, 60], zoom: 9
