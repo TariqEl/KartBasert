@@ -39,11 +39,11 @@ const App = () => {
     } )
   }
 
-  function handleZoomToNorway(e : React.MouseEvent) {
+  function handleZoomToMorocco(e : React.MouseEvent) {
     e.preventDefault();
 
     map.getView().animate({
-      center: [15, 65], zoom: 5
+      center: [-5, 35.3], zoom: 7
     })
   
   }
@@ -53,7 +53,7 @@ const App = () => {
       <header><h1>BS</h1></header>
       <nav>
         <a href="#" onClick={handleZoomToUser}>Zoom to my location</a>
-        <a href="#" onClick={handleZoomToNorway}>Zoom to Norway</a>
+        <a href="#" onClick={handleZoomToMorocco}>Zoom to Morocco</a>
       </nav>
     <div className='map' ref={mapRef}>
       I am a map
