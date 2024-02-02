@@ -4,6 +4,7 @@ import { Map, View } from "ol";
 import TileLayer from "ol/layer/Tile";
 import OSM from "ol/source/OSM";
 import { useGeographic } from "ol/proj";
+import "ol/ol.css";
 
 
 
