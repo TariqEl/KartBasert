@@ -8,7 +8,6 @@ import "ol/ol.css";
 import { KommuneLayerCheckBox } from "./KommuneLayerCheckBox";
 import Layer from "ol/layer/Layer";
 
-
 useGeographic();
 
 const map = new Map({
@@ -23,23 +22,18 @@ const map = new Map({
   }),
 });
 
-
-
 export function MapApplication() {
-
-
   const [layers, setLayers] = useState<Layer[]>([
     new TileLayer({
-      source: new OSM()
-    })
+      source: new OSM(),
+    }),
   ]);
-
 
   const mapRef = useRef() as MutableRefObject<HTMLDivElement>;
 
-  useEffect(()=>{
+  useEffect(() => {
     map.setLayers(layers);
-  },[layers]);
+  }, [layers]);
 
   useEffect(() => {
     map.setTarget(mapRef.current);
@@ -51,7 +45,7 @@ export function MapApplication() {
         <h1>Map</h1>
       </header>
       <nav>
-        <KommuneLayerCheckBox setLayers={setLayers}/>
+        <KommuneLayerCheckBox setLayers={setLayers} />
       </nav>
       <main ref={mapRef}>Here is the map</main>
     </>
