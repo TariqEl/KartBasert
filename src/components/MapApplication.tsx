@@ -1,10 +1,12 @@
-import React, { MutableRefObject, useEffect, useRef } from "react";
+import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import "./application.css";
 import { Map, View } from "ol";
 import TileLayer from "ol/layer/Tile";
 import OSM from "ol/source/OSM";
 import { useGeographic } from "ol/proj";
 import "ol/ol.css";
+import { KommuneLayerCheckBox } from "./KommuneLayerCheckBox";
+
 
 useGeographic();
 
@@ -20,6 +22,8 @@ const map = new Map({
   }),
 });
 
+
+
 export function MapApplication() {
   const mapRef = useRef() as MutableRefObject<HTMLDivElement>;
 
@@ -32,7 +36,9 @@ export function MapApplication() {
       <header>
         <h1>Map</h1>
       </header>
-      <nav>Actions</nav>
+      <nav>
+        <KommuneLayerCheckBox />
+      </nav>
       <main ref={mapRef}>Here is the map</main>
     </>
   );
