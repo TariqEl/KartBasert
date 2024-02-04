@@ -45,7 +45,7 @@ export function MapApplication() {
         <h1>Map</h1>
       </header>
       <nav>
-        <KommuneLayerCheckBox setLayers={setLayers} />
+        <KommuneLayerCheckBox setLayers={setLayers} map={map} />
       </nav>
       <main ref={mapRef}>Here is the map</main>
     </>
