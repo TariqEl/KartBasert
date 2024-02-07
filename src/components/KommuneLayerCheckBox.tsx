@@ -20,7 +20,7 @@ export function KommuneLayerCheckBox({
           format: new GeoJSON(),
         }),
       }),
-    []
+    [],
   );
 
   useEffect(() => {
