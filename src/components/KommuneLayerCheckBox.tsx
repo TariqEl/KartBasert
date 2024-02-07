@@ -36,7 +36,7 @@ export function KommuneLayerCheckBox({
     () =>
       new VectorLayer({
         source: new VectorSource({
-          url: "/kommuner.json",
+          url: "/KartBasert/kommuner.json",
           format: new GeoJSON(),
         }),
       }),
@@ -47,9 +47,11 @@ export function KommuneLayerCheckBox({
     if (checked) {
       setLayers((old) => [...old, kommuneLayer]);
       map.on("click", handleClick);
-    } else {
-      setLayers((old) => old.filter((l) => l !== kommuneLayer));
     }
+    return () => {
+      map.un("click", handleClick);
+      setLayers((old) => old.filter((l) => l !== kommuneLayer));
+    };
   }, [checked]);
 
   return (

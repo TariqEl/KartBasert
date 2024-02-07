@@ -30,14 +30,8 @@ export function MapApplication() {
   ]);
 
   const mapRef = useRef() as MutableRefObject<HTMLDivElement>;
-
-  useEffect(() => {
-    map.setLayers(layers);
-  }, [layers]);
-
-  useEffect(() => {
-    map.setTarget(mapRef.current);
-  }, []);
+  useEffect(() => map.setTarget(mapRef.current), []);
+  useEffect(() => map.setLayers(layers), [layers]);
 
   return (
     <>
