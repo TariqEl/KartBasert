@@ -11,7 +11,8 @@
     "dev": "vite",
     "build": "npm run check && vite build",
     "check": "prettier --check . && tsc --noEmit",
-    "prepare": "husky install"
+    "prepare": "husky",
+    "husky": "node ./node_modules/husky/lib/bin.js"
   },
   "dependencies": {
     "ol": "^8.2.0",
