@@ -1,18 +1,16 @@
 {
   "devDependencies": {
-    "@types/react": "^18.2.51",
     "@types/react-dom": "^18.2.18",
     "husky": "^9.0.10",
-    "prettier": "^3.2.5",
+    "prettier": "^3.2.4",
     "typescript": "^5.3.3",
-    "vite": "^5.0.12"
+    "vite": "^5.0.11"
   },
   "scripts": {
     "dev": "vite",
     "build": "npm run check && vite build",
     "check": "prettier --check . && tsc --noEmit",
-    "prepare": "husky",
-    "husky": "node ./node_modules/husky/lib/bin.js"
+    "prepare": "husky"
   },
   "dependencies": {
     "ol": "^8.2.0",
