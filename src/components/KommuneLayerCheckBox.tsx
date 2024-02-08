@@ -56,7 +56,7 @@ export function KommuneLayerCheckbox({
   >();
   function handleClick(e: MapBrowserEvent<MouseEvent>) {
     const clickedKommune = kommuneSource.getFeaturesAtCoordinate(
-      e.coordinate
+      e.coordinate,
     ) as KommuneFeature[];
     if (clickedKommune.length === 1) {
       setSelectedKommune(clickedKommune[0]);
@@ -93,7 +93,7 @@ export function KommuneLayerCheckbox({
           <>
             {
               (selectedKommune.getProperties() as KommuneProperties).navn.find(
-                (n) => n.sprak === "nor"
+                (n) => n.sprak === "nor",
               )!.navn
             }
           </>
