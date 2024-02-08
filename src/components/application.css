@@ -16,3 +16,9 @@ nav,
 header {
   padding: 0.25em;
 }
+
+.kommune-overlay {
+  background-color: white;
+  translate: -50% calc(-50% - 30px);
+  padding: 0.5em;
+}

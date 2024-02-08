@@ -1,47 +1,71 @@
-import Layer from "ol/layer/Layer";
+import React, {
+  Dispatch,
+  MutableRefObject,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { Layer } from "ol/layer";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
-import React, { Dispatch, SetStateAction, useEffect, useMemo } from "react";
-import { useState } from "react";
 import { GeoJSON } from "ol/format";
-import { Map, MapBrowserEvent } from "ol";
+import { Feature, Map, MapBrowserEvent, Overlay } from "ol";
+import { Polygon } from "ol/geom";
 
-interface KommuneProperties {
+type KommuneProperties = {
   kommunenummer: string;
-  navn: { sprak: string; navn: string }[];
-}
+  navn: {
+    sprak: string;
+    navn: string;
+  }[];
+};
 
-export function KommuneLayerCheckBox({
-  setLayers,
+type KommuneFeature = Feature<Polygon> & {
+  getProperties(): KommuneProperties;
+};
+
+const kommuneSource = new VectorSource<KommuneFeature>({
+  url: "/KartBasert/kommuner.json",
+  format: new GeoJSON(),
+});
+const kommuneLayer = new VectorLayer({
+  source: kommuneSource,
+});
+
+export function KommuneLayerCheckbox({
   map,
+  setLayers,
 }: {
-  setLayers: Dispatch<SetStateAction<Layer[]>>;
   map: Map;
+  setLayers: Dispatch<SetStateAction<Layer[]>>;
 }) {
   const [checked, setChecked] = useState(false);
-
+  const overlay = useMemo(() => new Overlay({}), []);
+  const overlayRef = useRef() as MutableRefObject<HTMLDivElement>;
+  useEffect(() => {
+    overlay.setElement(overlayRef.current);
+    map.addOverlay(overlay);
+    return () => {
+      map.removeOverlay(overlay);
+    };
+  }, []);
+  const [selectedKommune, setSelectedKommune] = useState<
+    KommuneFeature | undefined
+  >();
   function handleClick(e: MapBrowserEvent<MouseEvent>) {
-    const features = kommuneLayer
-      .getSource()
-      ?.getFeaturesAtCoordinate(e.coordinate);
-    const firstFeature = features?.length ? features[0] : undefined;
-    if (firstFeature) {
-      const kommuneProperties =
-        firstFeature.getProperties() as KommuneProperties;
-      alert(kommuneProperties.navn.find((n) => n.sprak == "nor")!.navn);
+    const clickedKommune = kommuneSource.getFeaturesAtCoordinate(
+      e.coordinate
+    ) as KommuneFeature[];
+    if (clickedKommune.length === 1) {
+      setSelectedKommune(clickedKommune[0]);
+      overlay.setPosition(e.coordinate);
+    } else {
+      setSelectedKommune(undefined);
+      overlay.setPosition(undefined);
     }
   }
-
-  const kommuneLayer = useMemo(
-    () =>
-      new VectorLayer({
-        source: new VectorSource({
-          url: "/KartBasert/kommuner.json",
-          format: new GeoJSON(),
-        }),
-      }),
-    [],
-  );
 
   useEffect(() => {
     if (checked) {
@@ -55,15 +79,26 @@ export function KommuneLayerCheckBox({
   }, [checked]);
 
   return (
-    <>
+    <div>
       <label>
         <input
-          type="checkbox"
+          type={"checkbox"}
           checked={checked}
           onChange={(e) => setChecked(e.target.checked)}
         />
-        <>{checked ? "Hide" : "Show"} Kommuner</>
+        {checked ? "Hide" : "Show"} kommune layer
       </label>
-    </>
+      <div ref={overlayRef} className="kommune-overlay">
+        {selectedKommune && (
+          <>
+            {
+              (selectedKommune.getProperties() as KommuneProperties).navn.find(
+                (n) => n.sprak === "nor"
+              )!.navn
+            }
+          </>
+        )}
+      </div>
+    </div>
   );
 }
