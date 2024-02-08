@@ -1,7 +1,8 @@
 on:
   push:
     branches:
-      - lecture/**
+      - lecture/*
+      - lecture/teach/*
 
 jobs:
   publish:
