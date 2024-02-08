@@ -1,6 +1,7 @@
 {
   "devDependencies": {
-    "@types/react-dom": "^18.2.18",
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
     "husky": "^9.0.10",
     "prettier": "^3.2.4",
     "typescript": "^5.3.3",
