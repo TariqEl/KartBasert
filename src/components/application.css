@@ -7,10 +7,6 @@
   height: 100dvh;
 }
 
-main {
-  background-color: lightblue;
-}
-
 nav {
   display: flex;
   gap: 1em;
@@ -19,4 +15,9 @@ nav {
 .kommune-overlay {
   translate: -50% -50%;
   background-color: white;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 1fr auto;
 }
