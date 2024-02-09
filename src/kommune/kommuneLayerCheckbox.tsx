@@ -74,8 +74,9 @@ export function KommuneLayerCheckbox({
         <div>
           Selected kommune:{" "}
           {
-            selectedKommune.getProperties().navn.find((n) => n.sprak === "nor")!
-              .navn
+            selectedKommune
+              .getProperties()
+              .navn.find((n: { sprak: string }) => n.sprak === "nor")!.navn
           }
         </div>
       )}
