@@ -80,7 +80,7 @@ export function KommuneLayerCheckbox({
     };
   }, [checked]);
   return (
-    <div className="kommune-layer-checkbox">
+    <div>
       <label>
         <input
           type="checkbox"
@@ -89,15 +89,13 @@ export function KommuneLayerCheckbox({
         />
         {checked ? "Hide" : "Show"} Kommune layer
       </label>
-      <div ref={overlayRef}>
+      <div ref={overlayRef} className="kommune-overlay">
         {selectedKommune && (
           <>
-            {" "}
-            Selected kommune:{" "}
             {
-              selectedKommune
-                .getProperties()
-                .navn.find((n: { sprak: string }) => n.sprak === "nor")!.navn
+              (selectedKommune.getProperties() as KommuneProperties).navn.find(
+                (n: { sprak: string }) => n.sprak === "nor",
+              )!.navn
             }
           </>
         )}

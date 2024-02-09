@@ -16,12 +16,7 @@ nav {
   gap: 1em;
 }
 
-.selected-kommune {
-  position: absolute;
-  z-index: 1;
-  left: 50%;
-  top: 50%;
-  background-color: white;
-  padding: 1em;
+.kommune-overlay {
   translate: -50% -50%;
+  background-color: white;
 }
