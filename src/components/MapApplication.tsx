@@ -52,7 +52,7 @@ export function MapApplication() {
         <a href="#" onClick={handleFocusUser}>
           Focus on me
         </a>
-        <KommuneLayerCheckbox setLayers={setLayers} />
+        <KommuneLayerCheckbox map={map} setLayers={setLayers} />
       </nav>
       <main ref={mapRef}></main>
     </>
