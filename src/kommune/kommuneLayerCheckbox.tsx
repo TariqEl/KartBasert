@@ -2,8 +2,16 @@ import Layer from "ol/layer/Layer";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import { GeoJSON } from "ol/format";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Feature, Map, MapBrowserEvent } from "ol";
+import React, {
+  Dispatch,
+  MutableRefObject,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { Feature, Map, MapBrowserEvent, Overlay } from "ol";
 import { Polygon } from "ol/geom";
 
 type KommuneProperties = {
@@ -35,6 +43,15 @@ export function KommuneLayerCheckbox({
   setLayers: Dispatch<SetStateAction<Layer[]>>;
 }) {
   const [checked, setChecked] = useState(false);
+  const overlay = useMemo(() => new Overlay({}), []);
+  const overlayRef = useRef() as MutableRefObject<HTMLDivElement>;
+  useEffect(() => {
+    overlay.setElement(overlayRef.current);
+    map.addOverlay(overlay);
+    return () => {
+      map.removeOverlay(overlay);
+    };
+  }, []);
   const [selectedKommune, setSelectedKommune] = useState<
     KommuneFeature | undefined
   >();
@@ -45,8 +62,10 @@ export function KommuneLayerCheckbox({
     ) as KommuneFeature[];
     if (clickedKommune.length === 1) {
       setSelectedKommune(clickedKommune[0]);
+      overlay.setPosition(e.coordinate);
     } else {
       setSelectedKommune(undefined);
+      overlay.setPosition(undefined);
     }
   }
 
@@ -61,7 +80,7 @@ export function KommuneLayerCheckbox({
     };
   }, [checked]);
   return (
-    <div>
+    <div className="kommune-layer-checkbox">
       <label>
         <input
           type="checkbox"
@@ -70,16 +89,19 @@ export function KommuneLayerCheckbox({
         />
         {checked ? "Hide" : "Show"} Kommune layer
       </label>
-      {selectedKommune && (
-        <div>
-          Selected kommune:{" "}
-          {
-            selectedKommune
-              .getProperties()
-              .navn.find((n: { sprak: string }) => n.sprak === "nor")!.navn
-          }
-        </div>
-      )}
+      <div ref={overlayRef}>
+        {selectedKommune && (
+          <>
+            {" "}
+            Selected kommune:{" "}
+            {
+              selectedKommune
+                .getProperties()
+                .navn.find((n: { sprak: string }) => n.sprak === "nor")!.navn
+            }
+          </>
+        )}
+      </div>
     </div>
   );
 }
