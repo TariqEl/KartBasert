@@ -5,6 +5,7 @@ import TileLayer from "ol/layer/Tile";
 import OSM from "ol/source/OSM";
 import { useGeographic } from "ol/proj";
 import "ol/ol.css";
+import { KommuneLayerCheckbox } from "../kommune/kommuneLayerCheckbox";
 
 useGeographic();
 
@@ -46,6 +47,7 @@ export function MapApplication() {
         <a href="#" onClick={handleFocusUser}>
           Focus on me
         </a>
+        <KommuneLayerCheckbox />
       </nav>
       <main ref={mapRef}></main>
     </>
