@@ -35,14 +35,18 @@ export function KommuneLayerCheckbox({
   setLayers: Dispatch<SetStateAction<Layer[]>>;
 }) {
   const [checked, setChecked] = useState(false);
+  const [selectedKommune, setSelectedKommune] = useState<
+    KommuneFeature | undefined
+  >();
 
   function handleClick(e: MapBrowserEvent<MouseEvent>) {
     const clickedKommune = kommuneSource?.getFeaturesAtCoordinate(
       e.coordinate,
     ) as KommuneFeature[];
     if (clickedKommune.length === 1) {
-      const properties = clickedKommune[0].getProperties() as KommuneProperties;
-      alert(properties.navn.find((n) => n.sprak == "nor")?.navn);
+      setSelectedKommune(clickedKommune[0]);
+    } else {
+      setSelectedKommune(undefined);
     }
   }
 
@@ -66,6 +70,15 @@ export function KommuneLayerCheckbox({
         />
         {checked ? "Hide" : "Show"} Kommune layer
       </label>
+      {selectedKommune && (
+        <div>
+          Selected kommune:{" "}
+          {
+            selectedKommune.getProperties().navn.find((n) => n.sprak === "nor")!
+              .navn
+          }
+        </div>
+      )}
     </div>
   );
 }
