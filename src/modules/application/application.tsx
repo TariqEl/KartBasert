@@ -15,17 +15,12 @@ import "./application.css";
 import "ol/ol.css";
 import { KommuneLayerCheckbox } from "../../kommune/kommuneLayerCheckbox";
 import { Layer } from "ol/layer";
+import { MapContext } from "../../map/mapContext";
 
 useGeographic();
 
 const map = new Map({
   view: new View({ center: [10, 59], zoom: 8 }),
-});
-
-const MapContext = React.createContext<{
-  setLayers: Dispatch<SetStateAction<Layer[]>>;
-}>({
-  setLayers: () => {},
 });
 
 export function Application() {
@@ -48,7 +43,7 @@ export function Application() {
   useEffect(() => map.setTarget(mapRef.current), []);
   useEffect(() => map.setLayers(layers), [layers]);
   return (
-    <>
+    <MapContext.Provider value={{ setLayers }}>
       <header>
         <h1>Kommune kart</h1>
       </header>
@@ -59,6 +54,6 @@ export function Application() {
         <KommuneLayerCheckbox map={map} setLayers={setLayers} />
       </nav>
       <div ref={mapRef}></div>
-    </>
+    </MapContext.Provider>
   );
 }
