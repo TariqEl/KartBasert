@@ -1,4 +1,11 @@
-import React, { MutableRefObject, useEffect, useRef, useState } from "react";
+import React, {
+  Dispatch,
+  MutableRefObject,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { Map, View } from "ol";
 import TileLayer from "ol/layer/Tile";
 import { OSM } from "ol/source";
@@ -13,6 +20,12 @@ useGeographic();
 
 const map = new Map({
   view: new View({ center: [10, 59], zoom: 8 }),
+});
+
+const MapContext = React.createContext<{
+  setLayers: Dispatch<SetStateAction<Layer[]>>;
+}>({
+  setLayers: () => {},
 });
 
 export function Application() {
